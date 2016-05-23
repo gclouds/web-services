@@ -1,0 +1,168 @@
+@(title: String)(username: String)(content: Html)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@title</title>
+<meta name="description" content="Product of QA COE Bangalore">
+<meta name="author" content="QACOE">
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/js/jquery.dataTables.min.js"></script>
+<script src="/assets/js/dataTables.bootstrap.min.js"></script>
+<link href="/assets/css/style.css" rel="stylesheet">
+<link href="/assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="/assets/js/angular.js"></script>
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery.bootstrap.wizard.js"></script>
+<script src="/assets/js/prettify.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row" >
+			<div class="col-md-12" >
+				<nav class="navbar" role="navigation" style=" background-color: #DE1B1B;" >
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span><span
+								class="icon-bar"></span><span class="icon-bar"></span><span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/"><img
+							style="max-width: 90px; margin-top: -15px; margin-left: -15px;"
+							src="/assets/images/adobe.png" class="img-rounded"></a>
+					</div>
+
+					<div class="collapse navbar-collapse"
+						id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li ><a href="/Q2C">OMB E2E Regression Automation</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">@username<strong class="caret"></strong></a>
+								<ul class="dropdown-menu">
+									<li><a href="/logout">Logout</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li><a href="#">Separated link</a></li>
+								</ul></li>
+						</ul>
+					</div>
+
+				</nav>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<div class="panel-group" id="panel-727265">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+							<a class="panel-title collapsed" data-toggle="collapse"
+								data-parent="#panel-727265" href="#panel-element-products">List
+								of Products</a>
+						</div>
+						<div id="panel-element-products" class="panel-collapse collapse">
+						<div class="panel-body padding-zero">
+								<a href="/workflow/AMO" class="btn btn-link  ">AMO</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/analytics" class="btn btn-link ">Mobile Analytics</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Professional Services</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">AAM</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Campaign</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Professional Services</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">AEM</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Target</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Primetime</a>
+							</div>
+							<div class="panel-body padding-zero">
+								<a href="/workflow/Analytics" class="btn btn-link disabled">Social</a>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+							<a class="panel-title" data-toggle="collapse"
+								data-parent="#panel-727265" href="#panel-element-testdata">Test Data</a>
+						</div>
+						<div id="panel-element-testdata" class="panel-collapse collapse">
+
+							<div class="panel-body">
+								<a href="/list_test_data">List test data</a>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+							<a class="panel-title" data-toggle="collapse"
+								data-parent="#panel-727265" href="#panel-element-testcase">Test Case</a>
+						</div>
+						<div id="panel-element-testcase" class="panel-collapse collapse">
+							<div class="panel-body">
+								<a href="/list_test_case">Execute test case</a>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+							<a class="panel-title" data-toggle="collapse"
+								data-parent="#panel-727265" href="#panel-element-execution">Results</a>
+						</div>
+						<div id="panel-element-execution" class="panel-collapse collapse">
+						<div class="panel-body">
+								<a href="/history/execution/COMPLETED">Completed executions</a>
+							</div>
+							<div class="panel-body">
+								<a href="/history/execution/IN_PROGRESS">Pending executions</a>
+							</div>
+						<div class="panel-body">
+								<a href="/history/execution/FAILED">Failed executions</a>
+							</div>
+							<div class="panel-body">
+								<a href="/history/execution/ALL">History (All)</a>
+							</div>
+<!-- 							<div class="panel-body"> -->
+<!-- 								<a href="/history/execution/Failed">Failed (AMO)</a> -->
+<!-- 							</div> -->
+<!-- 							<div class="panel-body"> -->
+<!-- 								<a href="/search/execution">Find a execution</a> -->
+<!-- 							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+			@content
+
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-md-offset-2 footer">
+			Adobe - ACOE Project, contact: <a href="mailto:Automation-CoE@@adobe.com"> Automation-CoE@@adobe.com</a>
+			<span class="social social-e-mail-envelope"></span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

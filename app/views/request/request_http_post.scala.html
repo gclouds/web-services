@@ -1,0 +1,138 @@
+@(id: String)(testcaseId: String)
+<form class="unit-request-wrapper" role="form"
+				action="/request/create" method="POST" id="unit-request-@id">
+<div class="row unit-request-wrapper well" id="reqType-@id" >
+	<ul class="nav nav-tabs">
+		<li ><a href="javascript:void(0);" onclick="hideMeReqType(this)"><span class="glyphicon glyphicon-chevron-down"></span> POST</a></li>
+		<li class="active"><a data-toggle="tab" href="#details-@id">Details</a></li>
+		<li><a data-toggle="tab" href="#request-@id">Request</a></li>
+		<li><a data-toggle="tab" href="#resViewer-@id">Response Viewer</a></li>
+		<li><a data-toggle="tab" href="#validations-@id">Validations</a></li>
+		<li><a onclick="saveBasicRequest('UNIT','@id')" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-floppy-save"></span> Save
+						</a></li>
+		<li><a onclick="testBasicRequest('POST','@id')" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-cd"></span> Test
+						</a></li>
+		<li><a href="javascript:void(0);" onclick="removeElement('@testcaseId','@id')"><span class='glyphicon glyphicon-remove'></span></a></li>
+		
+	</ul>
+	<div class="tab-content">
+		<div id="request-@id" class="tab-pane fade">
+				<div class="row unit-request-block-head">
+					<div class="col-sm-6">
+						<input type="text" class="form-control " id="host"
+							name="requestEndPoint" required="true" placeholder="End Point">
+					</div>
+					<div class="col-sm-2">
+					<select name="responseType" class="form-control" id="responseType-@id">
+					<option value="jsonres" >Response As JSON</option>
+					<option value="textres" >Response As Test</option>
+					</select>
+					</div>
+				</div>
+				<div class="row unit-request-block-head">
+					<div class="col-sm-12 text-uppercase">Authentication</div>
+					<div class="col-sm-12">
+						<a class="btn btn-link btn-xs" href="javascript:void(0);" onclick="addBasicAuth('@id')">
+							<span class="glyphicon glyphicon-plus"></span>Add Basic
+						</a >
+					</div>
+					<div  class="col-sm-12" id="basicAuth-@id"></div>
+				</div>
+				<div class="row unit-request-block-head">
+					<div class="col-sm-12 text-uppercase">Headers</div>
+					<div class="col-sm-12">
+						<a class="btn btn-link btn-xs" href="javascript:void(0);" onclick="addElement('headerparam',this)">
+							<span class="glyphicon glyphicon-plus"></span>Add Header
+						</a>
+					</div>
+				</div>
+				<div class="row unit-request-block-head">
+					<div class="col-sm-12 text-uppercase">QUERY STRING</div>
+					<div class="col-sm-12">
+						<a class="btn btn-link btn-xs" onclick="addElement('urlparam',this)" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-plus"></span>Add URL Parameter
+						</a>
+					</div>
+				</div>
+				<div class="row unit-request-block-head">
+					<div class="col-sm-12 text-uppercase">PARAMETERS</div>
+					<div class="col-sm-12">
+						<a class="btn btn-link btn-xs" onclick="addElement('formparam',this)" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-plus"></span>Add Form Parameter
+						</a>
+						<a class="btn btn-link btn-xs" onclick="addElement('jsonparam',this)" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-plus"></span>Add Json Body
+						</a>
+					</div>
+				</div>
+				<div class="row unit-request-block-head">
+					<div class="col-sm-12">
+
+						
+					</div>
+				</div>
+				<input type="hidden" name="testcaseIdForReq" value="@testcaseId">
+				<input type="hidden" name="basicRequestIdForReq" value="@id">				
+		</div>
+		<div id="resViewer-@id" class="tab-pane fade">
+				<div class="row unit-request-block-head" id="resViewer-astext-@id">
+					<div class="col-sm-2">
+						<div>Response Code:</div>
+						<div>
+							<input id="resCode-@id" class="form-control" disabled="disabled">
+						</div>
+					</div>
+					<div class="col-sm-12">
+						Response:
+						<textarea id="resData-@id" class="form-control" disabled="disabled"></textarea>
+					</div>
+				</div>
+				<div class="row unit-request-block-head" id="resViewer-asjson-@id" >
+					<div class="col-sm-12">Formated response:</div>
+					<div class="col-sm-8 response-viewer-asjson" id="formatedResponse-@id" ></div>
+					<div class="col-sm-4" id="keysResponse-@id">
+						<div class="col-sm-12"><a class="btn btn-primary btn-xs"
+							onclick="responseDo('addval','@id')" href="javascript:void(0);">
+							<span class="glyphicon glyphicon-cd"></span> Add to Validation
+						</a></div>
+					</div>
+				</div>
+		</div>
+		<div id="validations-@id" class="tab-pane fade">
+			<h3>Menu 2</h3>
+			<p>Some content in menu 2.</p>
+		</div>
+			<div id="details-@id" class="tab-pane fade in active">
+				<div class="row unit-request-block-head">
+				<div class="col-sm-12">
+					<div class="col-sm-4">
+						<input type="text" class="form-control  id="reqName"
+							name="reqName" required="true"
+							placeholder="Request name">
+					</div>
+					<div class="col-sm-4">
+						<input class="form-control " id="reqDescription" type="text"
+							name="reqEnvName" placeholder="enviroment name">
+					</div>
+					</div>
+					<div class="col-sm-12">
+					
+					<div class="col-sm-8">
+					<textarea class="form-control" placeholder="description" name="reqDes" ></textarea>
+					</div>
+					</div>
+					<div class="col-sm-12">
+					<div class="col-sm-8">
+						<input class="form-control " id="reqDescription" type="text"
+							name="reqKeywords" placeholder="Add keywords (comma seperated)">
+					</div>
+					</div>
+				</div>
+			</div>
+		<div id="remove-@id" class="tab-pane fade">
+		</div>
+	</div>
+</div>
+</form>

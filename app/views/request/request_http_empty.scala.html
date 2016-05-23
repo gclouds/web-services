@@ -1,0 +1,24 @@
+@(id: String)(testcaseId: String)
+<div class="row unit-request-wrapper well">
+
+			<form class="unit-request-wrapper" role="form"
+				action="/request/create" method="POST" id="unit-request-@id">
+				<div class="row unit-request-block-head">
+					<div class="col-sm-4">
+						<input type="text" class="form-control  id="reqSearchbox"
+							name="reqSearchbox" required="true" placeholder="Type 'request name' or 'end point'">
+					</div>
+					<div class="col-sm-4">
+						<a class="btn btn-link btn-xs" href="javascript:void(0);" onclick="addBasicAuth('@id')">
+							<span class="glyphicon glyphicon-search"></span>Search
+						</a >
+					</div>
+
+				</div>
+				<div class="row unit-request-block-head">
+
+				</div>
+							
+			</form>
+	
+</div>

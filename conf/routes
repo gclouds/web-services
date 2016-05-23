@@ -1,0 +1,65 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET		/							controllers.Application.doIndex()
+POST	/login						controllers.Application.doLoginOrSignUp()
+GET		/login						controllers.Application.doIndex()
+GET		/logout						controllers.Application.logout()
+
+#automation
+POST	/hit		    			controllers.Application.doHit()
+GET		/hit/:id					controllers.Application.doHit_GET(id: String)
+
+#testcase
+GET     /chain-request/create							@controllers.TestCaseController.createTestCase()
+POST    /chain-request/create							@controllers.TestCaseController.createChainRequest()
+POST    /testcase/save/:testcaseId    					@controllers.TestCaseController.saveTestCase(testcaseId: String)
+POST    /testcase/run/:testcaseId    					@controllers.TestCaseController.runTestCase(testcaseId: String)
+GET	    /testcase/edit/:testcaseId    					@controllers.TestCaseController.editTestCase(testcaseId: String)
+GET		/testcase/delete/:testcaseId    				@controllers.TestCaseController.deleteTestCase(testcaseId: String)
+GET		/testcase/get/:testcaseId    					@controllers.AppServices.getTestCaseById(testcaseId: String)
+GET     /testcase/add-component/:testcaseId/:reqId	    @controllers.TestCaseController.addAndGetComponent(testcaseId: String,reqId: String)
+
+GET     /datasource/create		    controllers.Application.createDataSource()
+POST    /datasource/create		    controllers.Application.doCreateDataSource()
+
+GET     /chain-request/list								@controllers.RequestController.getTestCaseList()
+GET     /chain-request-execute/list						@controllers.RequestController.getTestCaseListExecute()
+
+GET     /component/create								@controllers.RequestController.createComponent()
+POST    /component/create								@controllers.RequestController.createComponent()
+GET     /component/list									@controllers.RequestController.getReqList()
+GET     /get-unit-request/:typeOfReq/:testcaseId		@controllers.RequestController.getUnitRequest(typeOfReq: String,testcaseId: String)
+GET     /remove-unit-request/:testcaseId/:reqId			@controllers.RequestController.removeUnitRequest(testcaseId: String,reqId: String)
+GET     /remove-unit-request/:reqId						@controllers.RequestController.removeComponent(reqId: String)
+POST    /save-unit-request								@controllers.RequestController.saveUnitRequest()
+POST    /test-unit-request/:typeOfReq					@controllers.RequestController.testUnitRequest(typeOfReq: String)
+GET     /request/create			   						@controllers.RequestController.createRequest()
+POST    /request/create			    					@controllers.RequestController.doCreateRequest()
+
+GET     /request/viewAll		    					@controllers.RequestController.viewAllRequest()
+GET     /request/delete/:id 							@controllers.RequestController.deleteRequest(id: String)
+GET     /request/addValidation	   						@controllers.RequestController.addValidation()
+
+GET     /team/create			    controllers.TeamController.createTeam()
+GET     /team/list				    controllers.TeamController.getTeamList()
+POST    /team/create			    controllers.TeamController.doCreateTeam()
+GET     /team/viewAll			    controllers.TeamController.viewAllTeam()
+GET     /team/delete/:id 			controllers.TeamController.deleteTeam(id: String)
+
+GET     /execute-now/:testcaseId						@controllers.Executor.execute(testcaseId: String)
+GET     /execute/:testcaseId						    @controllers.Executor.push(testcaseId: String)
+GET     /test/:testcaseId							    @controllers.Executor.test(testcaseId: String)
+GET     /visual-report/:executionId					    @controllers.Results.visualReport(executionId: String)
+
+#services
+GET     /get/basic-request							    @controllers.AppServices.getBasicReqByUser()
+GET     /doChange/:typeOfRequest/:id				    @controllers.AppServices.doChange(typeOfRequest: String,id: String)
+GET     /basic-request/All		    					@controllers.AppServices.getBasicReqByUser()
+GET     /basic-request/:id		    					@controllers.AppServices.getBasicRequest(id: String)
+GET     /test-case/All			    					@controllers.AppServices.getTestCaseReqByUser()
+POST	/search-result									@controllers.AppServices.searchResult()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

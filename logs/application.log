@@ -1,0 +1,30 @@
+2016-05-04 14:21:38,277 - [INFO] - from play in play-fork-run-akka.actor.default-dispatcher-5 
+Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2016-05-04 14:33:05,815 - [INFO] - from application in play-internal-execution-context-1 
+Application started!
+
+2016-05-04 14:33:06,364 - [INFO] - from application in play-internal-execution-context-1 
+Connected to Database!
+
+2016-05-04 14:33:06,371 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2016-05-04 14:33:19,619 - [INFO] - from application in play-akka.actor.default-dispatcher-8 
+getReqList/view All/gauravsi@adobe.com
+
+2016-05-04 14:33:19,981 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+user email: gauravsi@adobe.com
+
+2016-05-04 14:35:15,450 - [INFO] - from application in play-akka.actor.default-dispatcher-5 
+getReqList/view All/gauravsi@adobe.com
+
+2016-05-04 14:35:15,736 - [INFO] - from application in play-akka.actor.default-dispatcher-14 
+user email: gauravsi@adobe.com
+
+2016-05-04 14:35:47,661 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+getReqList/view All/gauravsi@adobe.com
+
+2016-05-04 14:35:47,938 - [INFO] - from application in play-akka.actor.default-dispatcher-22 
+user email: gauravsi@adobe.com
+

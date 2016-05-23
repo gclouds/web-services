@@ -1,0 +1,42 @@
+<div class="col-md-9">
+	<div class="tab-content-view">
+		<form class="row"  role="form" method="POST" action="/chain-request/create">
+			<div class="form-group">
+			<div class="col-sm-12"><label for="addRequestTypeList" class="control-label">Add Test</label></div>
+			<div class="col-sm-12"></div>
+			<div class="col-sm-12">
+					<div class="col-sm-8">
+						<input type="text" class="form-control"  id="testname"
+							name="testname" required="true"
+							placeholder="Request name">
+					</div>
+					</div>
+					<div class="col-sm-12" style="padding: 4px;"></div>
+					<div class="col-sm-12">
+					<div class="col-sm-8">
+					<textarea class="form-control" placeholder="description" name="testDes" ></textarea>
+					</div>
+					</div>
+					<div class="col-sm-12" style="padding: 4px;"></div>
+					<div class="col-sm-12">
+					<div class="col-sm-8">
+						<input class="form-control" id="testKeywords" type="text"
+							name="testKeywords" placeholder="Add keywords (comma seperated)">
+					</div>
+					</div>
+					<div class="col-sm-12 text-right" style="padding: 4px;"><div class="col-sm-8">
+					<button type="submit" class="btn" onclick="addRequestFields()"> Add </button></div>
+					</div>
+				  
+			</div>
+		</form>
+		<div id="request-chain-view"></div>
+		<div style="clear: both;"></div>
+	</div>
+</div>
+<script>
+
+</script>
+
+<link href="/assets/css/material.min.css" rel="stylesheet">
+<script src="/assets/js/material.min.js"></script>

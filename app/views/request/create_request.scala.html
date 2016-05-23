@@ -1,0 +1,240 @@
+<div class="row">
+	<div class="col-md-2">
+		<div class="list-group">
+			<a href="#" class="list-group-item">Home</a>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<form class="form-horizontal" role="form" action="/request/create"
+			method="POST" id="requestForm">
+			<div class="form-group required">
+				<label for="reqName" class="col-sm-4 control-label"> Request
+					Name *</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="reqName" name="reqName"
+						required="true">
+				</div>
+			</div>
+			<div class="form-group">
+
+				<label for="reqDescription" class="col-sm-4 control-label">
+					Description: </label>
+				<div class="col-sm-8">
+					<textarea class="form-control" id="reqDescription"
+						name="reqDescription"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+
+				<label for="host" class="col-sm-4 control-label"> Host *</label>
+				<div class="col-sm-2">
+					<select name="reqHttpProtocol" id="reqHttpProtocol"
+						class="form-control" required="true">
+						<option selected="selected" value="HTTP://">HTTP://</option>
+						<option value="HTTPS://">HTTPS://</option>
+					</select>
+				</div>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" id="host" name="host"
+						required="true">
+				</div>
+			</div>
+			<div class="form-group">
+
+				<label for="path" class="col-sm-4 control-label"> Path (/) *</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="path" name="path"
+						required="true">
+				</div>
+			</div>
+			<div class="form-group" id="reqTypeWrapper">
+
+				<label for="inputEmail3" class="col-sm-4 control-label">
+					Request Type (GET/POST) </label>
+				<div class="col-sm-4">
+					<select name="reqType" id="reqType" class="form-control"
+						required="true"><option selected="selected" value="GET">GET</option>
+						<option value="POST">POST</option>
+						<option value="PUT">PUT</option>
+						<option value="POST">DELETE</option>
+						<option value="HEAD">HEAD</option></select>
+				</div>
+				<div class="col-sm-4" id="noOfGetParamsWrapper">
+					<button type="button" class="btn btn-primary btn-block"
+						name="noOfGetParams" onclick="addParamFields();">Add</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="noOfGetParams" class="col-sm-4 control-label"></label>
+
+			</div>
+			<div id="paramsWrapper"></div>
+			<div class="form-group">
+				<label for="inputEmail3" class="col-sm-8 control-label"> Do
+					you want to add custom header? </label>
+				<div class="col-sm-4">
+					<button type="button" class="btn btn-primary btn-block"
+						name="noOfGetParams" onclick="addHeaderFields();">Add</button>
+				</div>
+			</div>
+			<div id="headersWrapper"></div>
+			<div class="form-group" id="reqBodyWrapper">
+				<label for="inputEmail3" class="col-sm-4 control-label">
+					Request Body: </label>
+				<div class="col-sm-8">
+					<textarea class="form-control" id="testCaseName" name="reqBody"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+
+				<label for="inputEmail3" class="col-sm-4 control-label">
+					Team </label>
+				<div class="col-sm-8">
+				<select class="form-control" id="teamOptions" name="teamID">
+				</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+
+						<label> <input type="checkbox" name="isActive" value="Y">
+							Active *
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-6">
+					<button type="submit" class="btn btn-lg btn-primary btn-block">Save</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-lg btn-info btn-block"
+						id="mock">Mock</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="responseWrapper" class="col-md-5 alert alert-info">
+		<div class="form-group">
+			<label for="inputEmail3" class="control-label" id="responseCode">
+				Mock response</label>
+		</div>
+		<div class="form-group">
+			<textarea class="form-control" rows="20" id="mockResponse"
+				disabled="disabled"></textarea>
+		</div>
+		<div class="form-group">
+			<button type="button" class="btn btn-lg btn-info btn-block"
+				id="jsonViewButton">View</button>
+		</div>
+	</div>
+
+</div>
+<div class="row">
+
+	<div class="span9" id="json-viwer-container"></div>
+
+</div>
+<script>
+
+
+	var getParamText = "<div class='form-group'><div class='col-sm-5'><input required='true' type='text' class='form-control' id='paramKey' name='paramKey' placeholder='Pah variable key'></div><div class='col-sm-5'><input required='true' type='text' class='form-control' id='paramValue' name='paramValue' placeholder='Value'></div><div class='col-sm-2'><button onclick='removeThisParam(this)' type='button' class='btn btn-info btn-block ' id='removeParam' on>Remove</button></div></div>";
+	var getHeaderHtml = "<div class='form-group'><div class='col-sm-5'><input required='true' type='text' class='form-control' id='headerKey' name='headerKey' placeholder='Header variable key'></div><div class='col-sm-5'><input required='true' type='text' class='form-control' id='headerValue' name='headerValue' placeholder='Value'></div><div class='col-sm-2'><button onclick='removeThisParam(this)' type='button' class='btn btn-info btn-block ' id='removeParam' on>Remove</button></div></div>";
+    
+	
+	
+	$("#reqType").change(function() {
+		if ($("#reqType").val() == "POST") {
+			$("#reqBodyWrapper").show();
+			$("#noOfGetParamsWrapper").hide();
+			$("#paramsWrapper").hide();
+		} else if ($("#reqType").val() == "GET") {
+			$("#reqBodyWrapper").hide();
+			$("#noOfGetParamsWrapper").show();
+			$("#paramsWrapper").show();
+		} else {
+			$("#reqBodyWrapper").hide();
+			$("#noOfGetParamsWrapper").hide();
+			$("#paramsWrapper").hide();
+		}
+	});
+
+	$(document).ready(function() {
+		$("#reqBodyWrapper").hide();
+	});
+
+	function addHeaderFields() {
+		//alert($("#reqType").val());
+		if ($("#reqType").val() == "GET") {
+			$("#headersWrapper").append(getHeaderHtml);
+		}
+	}
+	function addParamFields() {
+		//alert($("#reqType").val());
+		if ($("#reqType").val() == "GET") {
+			$("#paramsWrapper").append(getParamText);
+		}
+	}
+	function removeThisParam(obj) {
+		//alert("r u sure?");
+		$(obj).parent().parent().remove();
+	}
+	$("#mock")
+			.click(
+					function() {
+						var $form = $("#requestForm");
+						//alert($("#host").val()+ "/"+$("#path").val());
+						$("#responseCode")
+								.html(
+										'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>')
+						$("#mockResponse")
+								.text(
+										"please wait, while we process your request...");
+						$.ajax({
+							url : '/hit',
+							type : 'POST',
+							data : $("#requestForm").serialize(),
+							dataType : 'json',
+							success : function(result) {
+								if (result.STATUSCODE == 200) {
+									$("#responseWrapper").attr("class",
+											"col-md-5 alert alert-success");
+									$("#responseCode").html(
+											"Request completed (Response code: "
+													+ result.STATUSCODE + ")");
+									$("#mockResponse")
+											.text(result.RESPONSEBODY);
+								} else {
+									$("#responseWrapper").attr("class",
+											"col-md-5 alert alert-danger");
+									$("#responseCode").html(
+											"Request completed (Response code: "
+													+ result.STATUSCODE + ")");
+									$("#mockResponse")
+											.text(result.RESPONSEBODY);
+								}
+
+							},
+							error : function(error) {
+								$("#responseWrapper").attr("class",
+										"col-md-5 alert alert-danger");
+								$("#mockResponse").text(status);
+							}
+						});
+					});
+	$(document).ready(function() {
+		$.getJSON("/team/list", function(result) {
+		    var teamOptions = $("#teamOptions");
+		    //don't forget error handling!
+		    var data=result.data;
+		    $.each(data, function(key,name) {
+		    	teamOptions.append($("<option />").val(key).text(name));
+		    });
+		});
+		//$('#json-viwer-container').jsonViewer();
+
+	});
+</script>

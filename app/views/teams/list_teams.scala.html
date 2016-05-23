@@ -1,0 +1,42 @@
+@(listRequest: List[AutomationTeam])
+<div class="row">
+	<div class="col-md-2">
+		<div class="list-group">
+			<a href="#" class="list-group-item">All team list</a>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th>Team name</th>
+					<th>Created By</th>
+					<th>Date created</th>
+					<th>Is active</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(p <- listRequest) {
+				<tr>
+					<td>@p.getName()</td>
+					<td>@p.getEmail()</td>
+					<td>@p.getCreationDate()</td>
+					<td>@p.isActive()</td>
+					<td><button class="btn btn-danger btn-block" type="button" onclick="deleteTeam('@p.getId()')">Delete</button></td>
+				</tr>
+				}
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	function deleteTeam(teamID){
+		$.get( "/team/delete/"+teamID, function( data ) {
+			  alert(data);
+			});
+		 window.location.reload();
+	}
+</script>

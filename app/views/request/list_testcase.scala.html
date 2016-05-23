@@ -1,0 +1,101 @@
+<div class="col-sm-9">
+	<form action="/POST" method="post">
+		<div class="well">
+			<div class="col-sm-12 well text-center">Your Test Case list</div>
+			<table id="listOfTestData" class="table table-bordered "
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Test Case Name</th>
+						<th>Date created</th>
+						<th>Description</th>
+						<th>Keywords</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</form>
+	<!-- Modal Start here-->
+	<div class="modal fade bs-example-modal-sm" id="showOverLay"
+		tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div></div>
+				</div id="overlay-header">
+				<div class="modal-body" id="overlay-body"></div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal ends Here -->
+</div>
+<div class="col-sm-1"></div>
+<!-- <script type="text/javascript" src="/assets/js/lib/jquery.js"></script> -->
+<script type="text/javascript" src="/assets/js/jjsonviewer.js"></script>
+<script src="/assets/js/jquery.selection.js"></script>
+<script type="text/javascript" src="/assets/js/createComponent.js"></script>
+<link href="/assets/css/style2.css" rel="stylesheet">
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			type : 'GET',
+			processData : false,
+			crossDomain : true,
+			jsonp : false,
+			url : "/test-case/All",
+			success : function(responseData, textStatus, jqXHR) {
+				console.log(responseData);
+				var resData = JSON.parse(responseData);
+				//var resData = responseData;
+				var length = Object.keys(resData).length;
+				console.log('>>>' + resData);
+				showTableData(resData);
+			},
+			error : function(responseData, textStatus, errorThrown) {
+				alert('GET data failed.');
+			}
+		});
+
+	});
+
+	function showTableData(resData) {
+		var table = $('#listOfTestData')
+				.dataTable(
+						{
+							"aaData" : resData,
+							"aoColumnDefs" : [
+									{
+										"aTargets" : [ 0 ],
+										"mData" : "tcName"
+									},
+									{
+										"aTargets" : [ 1 ],
+										"mData" : "createdOn"
+									},
+									{
+										"aTargets" : [ 2 ],
+										"mData" : "description"
+									},
+									{
+										"aTargets" : [ 3 ],
+										"mData" : "keywords"
+									},
+									{
+										"aTargets" : [ 4 ],
+										"mData" : "id",
+										"mRender" : function(data, type, full) {
+											return '<div class="btn-group-vertical"><button type="button" onclick="shwTestData(\''
+													+ data
+													+ '\')" class="btn btn-warning btn-sm">Edit</button><button type="button" onclick="shwTestData(\''
+													+ data
+													+ '\')" class="btn btn-danger btn-sm">Delete</button></div>';
+										}
+									} ]
+						});
+	}
+</script>
+<script src="/assets/js/jquery.dataTables.min.js"></script>
+<script src="/assets/js/dataTables.bootstrap.min.js"></script>
+<link href="/assets/css/dataTables.bootstrap.min.css" rel="stylesheet">

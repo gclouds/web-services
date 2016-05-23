@@ -1,0 +1,71 @@
+@(listRequest: List[BasicRequest])
+<div class="row">
+	<div class="col-md-2">
+		<div class="list-group">
+			<a href="#" class="list-group-item">All Basic requests</a>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th>Request name</th>
+					<th>URI</th>
+					<th>Request Type</th>
+					<th>Is active</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(p <- listRequest) {
+				<tr>
+					<td>@p.getReqName()</td>
+					<td>@p.getReqHttpProtocol()</td>
+					<td></td>
+					<td>@p.isActive()</td>
+					<td><button class="btn btn-danger btn-block" type="button" onclick="deleteRequest('@p.getId()')">Delete</button></td>
+				</tr>
+				}
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+function deleteRequest(teamID){
+	$.get( "/request/delete/"+teamID, function( data ) {
+		  alert(data);
+		});
+	 window.location.reload();
+}
+
+function shwTestData(){
+	//alert(testId);
+	$.ajax({
+				type : 'GET',
+				processData : false,
+				crossDomain : true,
+				jsonp : false,
+				url : "/basic-request/ALL",
+				success : function(
+						responseData,
+						textStatus, jqXHR) {
+					resData = JSON.parse(responseData);
+					var length = Object.keys(resData).length; 
+					$scope=angular.element(document.getElementById('testDataModel')).scope();
+					$scope.myfunction(resData);
+					$scope.$apply();
+				},
+				error : function(
+						responseData,
+						textStatus,
+						errorThrown) {
+					alert('GET data failed.'+errorThrown+'==='+textStatus);
+				}
+			});
+	$("#testDataModel").modal();
+		
+}
+
+</script>

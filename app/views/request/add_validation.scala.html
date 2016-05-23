@@ -1,0 +1,128 @@
+
+<div id="responseWrapper" class="col-md-5 alert alert-info">
+	<form class="form-horizontal" role="form" action="/request/create"
+		method="POST" id="requestForm">
+		<div class="form-group">
+			<select class="col-sm-10 control-label" id="reqOptions"></select>
+			<div class="col-sm-2">
+				<button type="button" class="btn btn-info btn-block" id="mock">Go</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="control-label" id="responseCode">
+				Mock response</label>
+		</div>
+		<div class="form-group">
+			<textarea class="form-control" rows="20" id="mockResponse"
+				disabled="disabled"></textarea>
+		</div>
+		<div class="form-group">
+			<button type="button" class="btn btn-lg btn-info btn-block"
+				id="jsonViewButton">View</button>
+		</div>
+	</form>
+
+</div>
+<div class="col-md-5">
+	<div id="json-viwer-container"></div>
+</div>
+<script>
+	var getParamText = "<div class='form-group'><div class='col-sm-5'><input required='true' type='text' class='form-control' id='paramKey' name='paramKey' placeholder='Pah variable key'></div><div class='col-sm-5'><input required='true' type='text' class='form-control' id='paramValue' name='paramValue' placeholder='Value'></div><div class='col-sm-2'><button onclick='removeThisParam(this)' type='button' class='btn btn-info btn-block ' id='removeParam' on>Remove</button></div></div>";
+	var getHeaderHtml = "<div class='form-group'><div class='col-sm-5'><input required='true' type='text' class='form-control' id='headerKey' name='headerKey' placeholder='Header variable key'></div><div class='col-sm-5'><input required='true' type='text' class='form-control' id='headerValue' name='headerValue' placeholder='Value'></div><div class='col-sm-2'><button onclick='removeThisParam(this)' type='button' class='btn btn-info btn-block ' id='removeParam' on>Remove</button></div></div>";
+
+	function addHeaderFields() {
+		//alert($("#reqType").val());
+		if ($("#reqType").val() == "GET") {
+			$("#headersWrapper").append(getHeaderHtml);
+		}
+	}
+	function addParamFields() {
+		//alert($("#reqType").val());
+		if ($("#reqType").val() == "GET") {
+			$("#paramsWrapper").append(getParamText);
+		}
+	}
+	function removeThisParam(obj) {
+		//alert("r u sure?");
+		$(obj).parent().parent().remove();
+	}
+	$("#mock")
+			.click(
+					function() {
+						var $form = $("#requestForm");
+						//alert($("#host").val()+ "/"+$("#path").val());
+						$("#responseCode")
+								.html(
+										'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>')
+						$("#mockResponse")
+								.text(
+										"please wait, while we process your request...");
+						$.ajax({
+							url : '/hit/' + $('#reqOptions').val(),
+							type : 'GET',
+							dataType : 'json',
+							success : function(result) {
+								if (result.STATUSCODE == 200) {
+									$("#responseWrapper").attr("class",
+											"col-md-5 alert alert-success");
+									$("#responseCode").html(
+											"Request completed (Response code: "
+													+ result.STATUSCODE + ")");
+									$("#mockResponse")
+											.text(result.RESPONSEBODY);
+								} else {
+									$("#responseWrapper").attr("class",
+											"col-md-5 alert alert-danger");
+									$("#responseCode").html(
+											"Request completed (Response code: "
+													+ result.STATUSCODE + ")");
+									$("#mockResponse")
+											.text(result.RESPONSEBODY);
+								}
+
+							},
+							error : function(error) {
+								$("#responseWrapper").attr("class",
+										"col-md-5 alert alert-danger");
+								$("#mockResponse").text(status);
+							}
+						});
+					});
+	$(document).ready(function() {
+		$.getJSON("/request/list", function(result) {
+			var reqOptions = $("#reqOptions");
+			//don't forget error handling!
+			var data = result.data;
+			$.each(data, function(key, name) {
+				reqOptions.append($("<option />").val(key).text(name));
+			});
+		});
+	});
+
+	$("#jsonViewButton").click(function() {
+		
+		
+		var json=$('#mockResponse').val();
+		var objJson=JSON.parse(json);
+		
+// 		var element = document.getElementById('json-viwer-container');
+// 		var editor = new JSONEditor(element, {
+// 			schema: 'http://json-schema.org/draft-04/schema',
+// 			  theme: 'bootstrap3',
+// 			  disable_edit_json:true,
+// 			  iconlib: '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css',
+// 			  disable_properties:true,
+// 			  template: 'http://documentcloud.github.io/underscore/underscore-min.js'
+// 			});
+		
+// 		editor.setValue({name:objJson});
+		
+// 		var errors = editor.validate();
+// 		console.log(errors);
+
+		 $('#json-viwer-container').tree({ data: objJson });
+		
+		//$('#json-viwer-container').treeview({data : objJson});
+		//alert(objJson);
+	});
+</script>

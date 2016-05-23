@@ -1,0 +1,114 @@
+@(notification: Html)
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login/Sign Up</title>
+<meta name="description"
+	content="Source code generated using layoutit.com">
+<meta name="author" content="LayoutIt!">
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<div class="col-md-12">
+			<nav class="navbar" role="navigation"
+				style="background-color: #DE1B1B;">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span><span
+							class="icon-bar"></span><span class="icon-bar"></span><span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/"><img
+						style="max-width: 90px; margin-top: -15px; margin-left: -15px;"
+						src="/assets/images/adobe.png" class="img-rounded"></a>
+				</div>
+
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="/">WebServices Automation</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">No User<strong class="caret"></strong></a>
+						</li>
+					</ul>
+				</div>
+
+			</nav>
+		</div>
+	</header>
+	<div>
+		<div class="container-fluid">
+			<div class="row">@notification</div>
+			<div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-offset-2 col-md-3 well" style="margin-top: auto; margin-bottom: auto;">
+							<form role="form" action="/login" method="POST">
+							<input type="hidden" name="loginType" value="login">
+								<div class="form-group">
+									<label for="exampleInputEmail1"> Email address </label> <input
+										type="email" class="form-control" id="email" name="email"  required="required"/>
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1"> Password </label> <input
+										type="password" class="form-control"
+										id="password" name="password"  required="required"/>
+								</div>
+								<button type="submit" class="btn btn-default">Login</button>
+							</form>
+						</div>
+						<div class="col-md-offset-1 col-md-4 well">
+							<form role="form" action="/login" method="POST" >
+								<input type="hidden" name="loginType" value="singup">
+								<div class="form-group">
+									<label for="exampleInputEmail1"> First Name </label> <input
+										type="text" class="form-control" id="fname" name="fname" required="required" />
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1"> Last Name </label> <input
+										type="text" class="form-control"
+										id="lname" name="lname" required="required" />
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1"> Email </label> <input
+										type="email" class="form-control"
+										id="userEmail" name="userEmail" required="required"/>
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1"> Password </label> <input
+										type="password" class="form-control"
+										id="password" name="password"/ required="required">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputPassword1"> Department Name </label> <input
+										type="text" class="form-control"
+										id="deptName" name="deptName"  required="required"/>
+								</div>																
+								<button type="submit" class="btn btn-default">Sign Up</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="col-md-12 col-md-offset-2 footer">
+			Adobe - ACOE Project, contact: <a
+				href="mailto:Automation-CoE@@adobe.com">
+				Automation-CoE@@adobe.com</a> <span
+				class="social social-e-mail-envelope"></span>
+		</div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<div class="col-sm-10" ng-app="testcase-app"
+	ng-controller="testcase-controller">
+<div class="col-sm-9">
+	<div class="tab-content-view">
+		<div >
+			<div class="col-sm-12" style="border-bottom: 1px solid #ebebeb; padding: 10px;">
+				<div class="col-sm-6">	<label>Add Basic Component <span class="glyphicon glyphicon-chevron-right"></span> </label>
+				</div>
+			</div>
+					<div class="col-sm-12 unit-request-wrapper well"
+			id="reqType-basicrequest.id" ng-repeat="basicrequest in components"
+			ng-init="basicrequest.index=$index">
+			<ul class="nav nav-tabs">
+				<li><a href="javascript:void(0);"
+					ng-click="hideComponents($index)"><span
+						class="glyphicon glyphicon-chevron-down"></span> {{basicrequest.reqType}}</a></li>
+				<li class="active"><a data-toggle="tab"
+					href="#details-{{basicrequest.id}}">Details</a></li>
+				<li><a data-toggle="tab" href="#request-{{basicrequest.id}}">Request</a></li>
+				<li><a data-toggle="tab" href="#resViewer-{{basicrequest.id}}">Response
+						Viewer</a></li>
+				<li><a data-toggle="tab"
+					href="#validations-{{basicrequest.id}}">Validations</a></li>
+					<li><a ng-click="saveBasicRequest('{{basicrequest.id}}')"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-floppy-save"></span> Save
+							</a></li>
+					<li><a  ng-click="showOnConsole()"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-cd"></span> Test
+							</a></li>
+				<li><a data-toggle="tab" href="#remove-{{basicrequest.id}}"
+					ng-click="removeComponents($index)"><span
+						class='glyphicon glyphicon-remove'></span></a></li>
+			</ul>
+			<div class="tab-content" ng-hide="basicrequest.show">
+				<div id="request-{{basicrequest.id}}" class="tab-pane fade">
+					<div class="row unit-request-block-head">
+						<div class="col-sm-6">
+							<input ng-model="basicrequest.endPoint" type="url"
+								class="form-control" id="host" name="requestEndPoint"
+								required="true" placeholder="End Point">
+						</div>
+						<div class="col-sm-2">
+							<select name="responseType" class="form-control"
+								id="responseType-{{basicrequest.id}}" ng-model="basicrequest.responseType" >
+								<option value="JSON">Response As JSON</option>
+								<option value="TEXT">Response As Test</option>
+							</select>
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">Authentication</div>
+						<div class="col-sm-12">
+							<a class="btn btn-link btn-xs" href="javascript:void(0);"
+								ng-click="addBasicAuth(basicrequest.index)"> <span
+								class="glyphicon glyphicon-plus"></span>Add Basic
+							</a>
+						</div>
+						<div class="col-sm-12" ng-if="basicrequest.isBasicAuth">
+							<div class='col-sm-2'>
+								<input required='true' type='text' class='form-control'
+									ng-model='basicrequest.username' placeholder='user name'>
+							</div>
+							<div class='col-sm-2'>
+								<input required='true' type='text' class='form-control'
+									ng-model='basicrequest.password' placeholder='password'>
+							</div>
+							<div class='col-sm-1'>
+								<a ng-click="removeBasicAuth(basicrequest.index)" href='javascript:void(0);'
+									class='btn btn-link btn-xs' id='removeParam' on><span
+									class='glyphicon glyphicon-remove'></span></a>
+							</div>
+
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">Headers</div>
+						<div class="col-sm-12" id="headerParams">
+							<a class="btn btn-link btn-xs" href="javascript:void(0);"
+								ng-click="addComponentsAttr(basicrequest.index,'reqHeader')">
+								<span class="glyphicon glyphicon-plus"></span>Add Header
+							</a>
+						</div>
+						<div class="col-sm-12 text-uppercase"
+							ng-repeat="(key,value) in basicrequest.reqHeader">
+							<div class='col-sm-12'>
+								<div class='col-sm-2'>
+									<input ng-model="key" required='true' type='text'
+										class='form-control' id='headerKey' name='headerKey'
+										placeholder='Header variable key'>
+								</div>
+								<div class='col-sm-4'>
+									<input ng-model="value" required='true' type='text'
+										class='form-control' id='headerValue' name='headerValue'
+										placeholder='Value'>
+								</div>
+								<div class='col-sm-1'>
+									<a
+										ng-click="removeComponentsAttr(basicrequest.index,'reqHeader',key)"
+										href='javascript:void(0);' class='btn btn-link btn-xs'
+										id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">QUERY STRING</div>
+						<div class="col-sm-12" id="queryParams">
+							<a class="btn btn-link btn-xs"
+								ng-click="addComponentsAttr(basicrequest.index,'reqParams')"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-plus"></span>Add URL Parameter
+							</a>
+						</div>
+						<div class="col-sm-12"
+							ng-repeat="(key,value) in basicrequest.reqParams">
+
+							<div class='col-sm-12'>
+								<div class='col-sm-2'>
+									<input required='true' type='text' class='form-control'
+										id='formKey' name='urlParamKey'
+										placeholder='form variable key' value="{{key}}">
+								</div>
+								<div class='col-sm-4'>
+									<input required='true' type='text' class='form-control'
+										id='formParamValue' name='urlParamValue' placeholder='Value'
+										value="{{value}}">
+								</div>
+								<div class='col-sm-1'>
+									<a
+										ng-click="removeComponentsAttr(basicrequest.index,'reqParams',key)"
+										href='javascript:void(0);' class='btn btn-link btn-xs'
+										id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="row unit-request-block-head"
+						ng-if"basicrequest.reqType=='POST'">
+						<div class="col-sm-12 text-uppercase">PARAMETERS</div>
+						<div class="col-sm-12" id="paramsToPost">
+							<a class="btn btn-link btn-xs"
+								ng-click="addComponentsAttr(basicrequest.index,'formParams')"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-plus" id="addFormParamToPost"></span>Add
+								Form Parameter
+							</a> <a class="btn btn-link btn-xs"
+								ng-click="addComponentBody(basicrequest.index)"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-plus" id="addBodyToPost"></span>Add
+								 Body {{basicrequest.reqBody}}
+							</a>
+						</div>
+						<div class="col-sm-12"
+							ng-repeat="(key,value) in basicrequest.formParams">
+
+							<div class='col-sm-12'>
+								<div class='col-sm-2'>
+									<input required='true' type='text' class='form-control'
+										name='paramKey' placeholder='form variable key'
+										value="{{key}}">
+								</div>
+								<div class='col-sm-4'>
+									<input required='true' type='text' class='form-control'
+										name='paramValue' placeholder='Value' value="{{value}}">
+								</div>
+								<div class='col-sm-1'>
+									<a
+										ng-click="removeComponentsAttr(basicrequest.index,'formParams',key)"
+										href='javascript:void(0);' class='btn btn-link btn-xs'
+										id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12" ng-if="basicrequest.reqBody">
+
+							<div class='col-sm-12'>
+								<div class='col-sm-6'>
+									<textarea required='true' type='text' class='form-control'
+										id='headerKey' name='jsonBody'
+										placeholder='Header variable key'> {{basicrequest.reqBody}}</textarea>
+								</div>
+								<div class='col-sm-1'>
+									<a
+										ng-click="removeComponentsAttr(basicrequest.index,'reqBody',key)"
+										href='javascript:void(0);' class='btn btn-link btn-xs'
+										id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<input type="hidden" name="testcaseIdForReq"
+						value="basicrequest.testcaseId"> <input type="hidden"
+						name="basicRequestIdForReq" value="{{basicrequest.id}}">
+				</div>
+				<div id="resViewer-{{basicrequest.id}}" class="tab-pane fade">
+					<div class="row unit-request-block-head"
+						id="resViewer-astext-{{basicrequest.id}}">
+						<div class="col-sm-2">
+							<div>Response Code:</div>
+							<div>
+								<input id="resCode-{{basicrequest.id}}" class="form-control"
+									disabled="disabled">
+							</div>
+						</div>
+						<div class="col-sm-12">
+							Response:
+							<textarea id="resData-{{basicrequest.id}}" class="form-control"
+								disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="row unit-request-block-head"
+						id="resViewer-asjson-{{basicrequest.id}}">
+						<div class="col-sm-12">Formated response:</div>
+						<div class="col-sm-8 response-viewer-asjson"
+							id="formatedResponse-{{basicrequest.id}}"></div>
+						<div class="col-sm-4" id="keysResponse-{{basicrequest.id}}">
+							<div class="col-sm-12">
+								<a class="btn btn-primary btn-xs"
+									ng-click="responseDo('addval','{{basicrequest.id}}')"
+									href="javascript:void(0);"> <span
+									class="glyphicon glyphicon-cd"></span> Add to Validation
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="validations-{{basicrequest.id}}" class="tab-pane fade">
+					<div class="col-sm-12">Depends Upon: <a ng-click="addDependsUpon(basicrequest.index)">add</a></div>
+					<div class="col-sm-3"
+							ng-repeat="(key,value) in basicrequest.dependsUpon">
+							<div class="btn  btn-primary col-sm-12">
+							Name: {{value}}<button type="button" class="btn btn-link right"
+					ng-click="removeDependsUpon(0,key)">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button></div></div>
+				</div>
+				<div id="details-{{basicrequest.id}}"
+					class="tab-pane fade in active">
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12">
+							<div class="col-sm-4">
+								<input type="text" class="form-control  id="
+									reqName"
+							name="reqName" required="true"
+									placeholder="Request name" ng-model="basicrequest.reqName">
+							</div>
+							<div class="col-sm-4">
+								<input class="form-control " id="reqDescription" type="text"
+									name="reqEnvName" placeholder="enviroment name"
+									ng-model="basicrequest.envName">
+							</div>
+						</div>
+						<div class="col-sm-12">
+
+							<div class="col-sm-8">
+								<textarea class="form-control" placeholder="description"
+									name="reqDes" ng-model="basicrequest.description"></textarea>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-8">
+								<input class="form-control " id="reqDescription" type="text"
+									name="reqKeywords" placeholder="Add keywords (comma seperated)"
+									ng-model="basicrequest.keywords">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="remove-{{basicrequest.id}}" class="tab-pane fade"></div>
+			</div>
+		</div>
+			<div class="text-center col-sm-12" style="border-top: 1px solid #ebebeb; margin-top: 20px; padding: 10px">
+				 <a class="btn btn-primary btn-xs" ng-click="addComponentType('HTTP_GET')"
+					href="javascript:void(0);" id="add-http-get-component"> Add HTTP GET Request</a>
+					<a class="btn btn-primary btn-xs" ng-click="addComponentType('HTTP_POST')"
+					href="javascript:void(0);" id="add-http-post-component"> Add HTTP POST Request</a>
+			</div>
+		<div style="clear: both;">
+		</div>
+		</div>
+	</div>
+	<!-- Modal Start here-->
+<div class="modal fade bs-example-modal-sm" id="showDependsUponDialog" tabindex="-1"
+    role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" >
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div>  Search dependent components here...</div>
+            </div id="overlay-header">
+            <div class="modal-body" id="overlay-body" >
+						<div class="row">
+							<form class="form-horizontal" role="form" id="searchForm">
+								<div class="input-group" id="adv-search">
+									<input type="text" class="form-control "
+										placeholder="Enter Keywords..." name="search-keywords" />
+									<div class="input-group-btn">
+										<div class="btn-group" role="group">
+											<div class="dropdown dropdown-lg">
+												<button type="button"
+													class="btn btn-default dropdown-toggle"
+													data-toggle="dropdown" aria-expanded="false">
+													<span class="caret"></span>
+												</button>
+												<div class="dropdown-menu dropdown-menu-right" role="menu">
+													<div class="form-group">
+														<label for="contain">created by user (email)</label> <input
+															class="form-control" type="text" name="search-email" />
+													</div>
+													<div class="form-group">
+														<label for="contain">contains description</label> <input
+															class="form-control" type="text"
+															name="search-description" />
+													</div>
+													<div class="form-group">
+														<input type="checkbox" name="search-get" value="GET">
+														GET request
+													</div>
+													<div class="form-group">
+														<input type="checkbox" name="search-post" value="POST">
+														POST request
+													</div>
+												</div>
+											</div>
+											<button ng-click="getResults()" type="button"
+												class="btn btn-primary center">
+												<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</form>
+							<div class="col-md-12" id="search-result-output">
+								<div ng-repeat="value in results" class="unit-result-wrapper"
+									data-toggle="tooltip" data-placement="left" data-html="true"
+									title="name: {{value.reqName}} <br> {{value.ReqType}}:: {{basicRequest.EndPoint}} <br> Enviroment:  {{value.EnvName}}<br>description : {{value.Description}}">
+									<button type="button" class="btn btn-primary center"
+										ng-click="addDepends(0,value.id,value.reqName)">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+									<label>Name: {{value.reqName}}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal ends Here -->
+
+</div>
+<!-- <script type="text/javascript" src="/assets/js/lib/jquery.js"></script> -->
+<script type="text/javascript" src="/assets/js/jjsonviewer.js"></script>
+<script src="/assets/js/jquery.selection.js"></script>
+<script type="text/javascript" src="/assets/js/angular.js"></script>
+<script type="text/javascript" src="/assets/js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="/assets/js/component-controller.js"></script>
+<link href="/assets/css/testcase.css" rel="stylesheet">

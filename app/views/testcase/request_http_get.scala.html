@@ -1,0 +1,277 @@
+@(id: String)(testcaseId: String)(typeOfReq: String)
+<div ng-app="req-app-@id" ng-controller="req-Ctrl-@id" id="comp-app-@id">
+	<form class="unit-request-wrapper" role="form" action="/request/create"
+		method="POST" id="unit-request-@id">
+		<div class="row unit-request-wrapper well" id="reqType-@id">
+			<ul class="nav nav-tabs">
+				<li><a href="javascript:void(0);" onclick="hideMeReqType(this)"><span
+						class="glyphicon glyphicon-chevron-down"></span> @typeOfReq</a></li>
+				<li class="active"><a data-toggle="tab" href="#details-@id">Details</a></li>
+				<li><a data-toggle="tab" href="#request-@id">Request</a></li>
+				<li><a data-toggle="tab" href="#resViewer-@id">Response
+						Viewer</a></li>
+				<li><a data-toggle="tab" href="#validations-@id">Validations</a></li>
+				<li><a onclick="saveBasicRequest('UNIT','@id')"
+					href="javascript:void(0);"> <span
+						class="glyphicon glyphicon-floppy-save"></span> Save
+				</a></li>
+				<li><a onclick="testBasicRequest('@typeOfReq','@id')"
+					href="javascript:void(0);"> <span
+						class="glyphicon glyphicon-cd"></span> Test
+				</a></li>
+				<li><a data-toggle="tab" href="#remove-id"
+					onclick="removeElement('@testcaseId','@id')"><span
+						class='glyphicon glyphicon-remove'></span></a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="request-@id" class="tab-pane fade">
+					<div class="row unit-request-block-head">
+						<div class="col-sm-6">
+							<input ng-model="basicrequest.endPoint" type="url"
+								class="form-control" id="host" name="requestEndPoint"
+								required="true" placeholder="End Point">
+						</div>
+						<div class="col-sm-2">
+							<select name="responseType" class="form-control"
+								id="responseType-@id" ng-model="selectedName">
+								<option value="JSON">Response As JSON</option>
+								<option value="TEXT">Response As Test</option>
+							</select>
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">Authentication {{basicrequest.isBasicAuth}}</div>
+						<div class="col-sm-12"> 
+							<a class="btn btn-link btn-xs" href="javascript:void(0);"
+								onclick="addBasicAuth('@id')"> <span
+								class="glyphicon glyphicon-plus"></span>Add Basic
+							</a>
+						</div>
+						<div class="col-sm-12" 	ng-if="basicrequest.isBasicAuth">
+							<div class='col-sm-2'>
+								<input required='true' type='text' class='form-control'
+									name='basicAuthUserKey' placeholder='user name'
+									value="{{basicrequest.username}}">
+							</div>
+							<div class='col-sm-2'>
+								<input required='true' type='text' class='form-control'
+									name='basicAuthPwd' placeholder='password'
+									value="{{basicrequest.password}}">
+							</div>
+							<div class='col-sm-1'>
+								<a onclick='removeThisParam(this)' href='javascript:void(0);'
+									class='btn btn-link btn-xs' id='removeParam' on><span
+									class='glyphicon glyphicon-remove'></span></a>
+							</div>
+
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">Headers</div>
+						<div class="col-sm-12" id="headerParams">
+							<a class="btn btn-link btn-xs" href="javascript:void(0);"
+								onclick="addElement('headerparam',this)"> <span
+								class="glyphicon glyphicon-plus"></span>Add Header
+							</a>
+						</div>
+						<div class="col-sm-12"
+							ng-repeat="(key,value) in basicrequest.reqHeader">
+							<div class='col-sm-12'>
+								<div class='col-sm-2'>
+									<input value="{{key}}" required='true' type='text'
+										class='form-control' id='headerKey' name='headerKey'
+										placeholder='Header variable key'>
+								</div>
+								<div class='col-sm-4'>
+									<input value="{{value}}" required='true' type='text'
+										class='form-control' id='headerValue' name='headerValue'
+										placeholder='Value'>
+								</div>
+								<div class='col-sm-1'>
+									<a onclick='removeThisParam(this)' href='javascript:void(0);'
+										class='btn btn-link btn-xs' id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">QUERY STRING</div>
+						<div class="col-sm-12" id="queryParams">
+							<a class="btn btn-link btn-xs"
+								onclick="addElement('urlparam',this)" href="javascript:void(0);">
+								<span class="glyphicon glyphicon-plus"></span>Add URL Parameter
+							</a>
+						</div>
+						<div class="col-sm-12"
+							ng-repeat="(key,value) in basicrequest.reqParams">
+
+							<div class='col-sm-12'>
+								<div class='col-sm-2'>
+									<input required='true' type='text' class='form-control'
+										id='formKey' name='urlParamKey'
+										placeholder='form variable key' value="{{key}}">
+								</div>
+								<div class='col-sm-4'>
+									<input required='true' type='text' class='form-control'
+										id='formParamValue' name='urlParamValue' placeholder='Value'
+										 value="{{value}}">
+								</div>
+								<div class='col-sm-1'>
+									<a onclick='removeThisParam(this)' href='javascript:void(0);'
+										class='btn btn-link btn-xs' id='removeParam' on><span
+										class='glyphicon glyphicon-remove'></span></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					@if(typeOfReq == "POST"){
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12 text-uppercase">PARAMETERS</div>
+						<div class="col-sm-12" id="paramsToPost">
+							<a class="btn btn-link btn-xs"
+								onclick="addElement('formparam',this)"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-plus" id="addFormParamToPost"></span>Add
+								Form Parameter
+							</a> <a class="btn btn-link btn-xs"
+								onclick="addElement('jsonparam',this)"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-plus" id="addBodyToPost"></span>Add
+								Json Body
+							</a>
+						</div>
+					</div>
+					}
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12">
+							<a class="btn btn-primary btn-xs"
+								onclick="saveBasicRequest('UNIT','@id')"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-floppy-save"></span> Save
+							</a> <a class="btn btn-primary btn-xs"
+								onclick="testBasicRequest('@typeOfReq','@id')"
+								href="javascript:void(0);"> <span
+								class="glyphicon glyphicon-cd"></span> Test
+							</a>
+						</div>
+					</div>
+					<input type="hidden" name="testcaseIdForReq" value="@testcaseId">
+					<input type="hidden" name="basicRequestIdForReq" value="@id">
+				</div>
+				<div id="resViewer-@id" class="tab-pane fade">
+					<div class="row unit-request-block-head" id="resViewer-astext-@id">
+						<div class="col-sm-2">
+							<div>Response Code:</div>
+							<div>
+								<input id="resCode-@id" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						<div class="col-sm-12">
+							Response:
+							<textarea id="resData-@id" class="form-control"
+								disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="row unit-request-block-head" id="resViewer-asjson-@id">
+						<div class="col-sm-12">Formated response:</div>
+						<div class="col-sm-8 response-viewer-asjson"
+							id="formatedResponse-@id"></div>
+						<div class="col-sm-4" id="keysResponse-@id">
+							<div class="col-sm-12">
+								<a class="btn btn-primary btn-xs"
+									onclick="responseDo('addval','@id')" href="javascript:void(0);">
+									<span class="glyphicon glyphicon-cd"></span> Add to Validation
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="validations-@id" class="tab-pane fade">
+					<h3>Menu 2</h3>
+					<p>Some content in menu 2.</p>
+				</div>
+				<div id="details-@id" class="tab-pane fade in active">
+					<div class="row unit-request-block-head">
+						<div class="col-sm-12">
+							<div class="col-sm-4">
+								<input type="text" class="form-control  id="
+									reqName"
+							name="reqName" required="true"
+									placeholder="Request name" ng-model="basicrequest.reqName">
+							</div>
+							<div class="col-sm-4">
+								<input class="form-control " id="reqDescription" type="text"
+									name="reqEnvName" placeholder="enviroment name"
+									ng-model="basicrequest.envName">
+							</div>
+						</div>
+						<div class="col-sm-12">
+
+							<div class="col-sm-8">
+								<textarea class="form-control" placeholder="description"
+									name="reqDes" ng-model="basicrequest.description"></textarea>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-8">
+								<input class="form-control " id="reqDescription" type="text"
+									name="reqKeywords" placeholder="Add keywords (comma seperated)"
+									ng-model="basicrequest.keywords">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="remove-@id" class="tab-pane fade"></div>
+			</div>
+		</div>
+	</form>
+	<script>
+		var app = angular.module("req-app-@id", [ 'ngSanitize' ]);
+		app.controller("req-Ctrl-@id", function($scope, $http) {
+			$http.get("/basic-request/@id").then(
+					function(response) {
+						console.log(response.data);
+						console.log("isBasicAuth: "+$scope.basicrequest.isActive);
+
+						var reqRoot = $("#unit-request-@id");
+						$scope.basicrequest = response.data;
+						//$scope.basicrequest = {};
+						$scope.selectedName = response.data.responseType;
+						
+						console.log("isBasicAuth: "+$scope.basicrequest.isActive);
+						for ( var key in response.data.reqParams) {
+							console.log(reqRoot.find("#queryParams"));
+							reqRoot.find("#queryParams").after(
+									getUrlParamHtml(key,
+											response.data.reqParams[key]));
+						}
+
+						if (response.data.reqBody === 'undefined'
+								|| response.data.reqBody === null) {
+							console.log(response.data.reqBody);
+						} else {
+							console.log(response.data.reqBody);
+							reqRoot.find("#paramsToPost").after(
+									getBodyHtml(response.data.reqBody));
+						}
+						for ( var key in response.data.formParams) {
+							console.log('paramsToPost');
+							reqRoot.find("#paramsToPost").after(
+									getFormParamHtml(key,
+											response.data.formParams[key]));
+						}
+						alert($scope.basicrequest);
+						console.log($scope.basicrequest);
+
+					}, function(response) {
+						//Second function handles error
+						$scope.content = "Something went wrong";
+					});
+
+		});
+		angular.bootstrap(angular.element(document).find('#comp-app-@id'),
+				[ 'req-app-@id' ]);
+	</script>
+</div>
